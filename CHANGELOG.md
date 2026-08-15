@@ -10,7 +10,7 @@ different meaning, and removing one is a breaking change. Widening what an
 existing code detects is a minor change; the JSON output carries its own
 `schema_version` alongside the package version.
 
-## [0.1.0] — Unreleased
+## [0.1.0] — 2026-08-15
 
 First release. Twenty-eight diagnoses across the 004010 order-to-invoice flow.
 
