@@ -100,12 +100,23 @@ Paired with the document it acknowledges, "element 3 of segment 8" becomes
 
 ## Install
 
+Python 3.11 or later. No runtime dependencies.
+
 ```sh
 pipx install x12-doctor      # as a command line tool
 pip install x12-doctor       # as a library
 ```
 
-Python 3.11 or later. No runtime dependencies.
+If `pipx` itself runs on an older interpreter it will not go looking for a
+newer one — it reports `No matching distribution found`, which reads like the
+package does not exist. macOS ships Python 3.9, so this is a common way to
+meet it. Point pipx at a suitable interpreter:
+
+```sh
+pipx install --python python3.12 x12-doctor
+```
+
+The CLI is `x12doctor`; `x12-doctor` is installed as an alias for it.
 
 ## Quickstart
 
