@@ -109,8 +109,14 @@ pip install x12-doctor       # as a library
 
 If `pipx` itself runs on an older interpreter it will not go looking for a
 newer one — it reports `No matching distribution found`, which reads like the
-package does not exist. macOS ships Python 3.9, so this is a common way to
-meet it. Point pipx at a suitable interpreter:
+package does not exist rather than like a version constraint. A pipx installed
+against the Python 3.9 that macOS ships does exactly this. Upgrade pipx:
+
+```sh
+brew install pipx            # or: python3.12 -m pip install --user --upgrade pipx
+```
+
+Or, to leave pipx alone, choose the interpreter for this one install:
 
 ```sh
 pipx install --python python3.12 x12-doctor
