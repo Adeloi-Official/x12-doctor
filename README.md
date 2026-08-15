@@ -1,6 +1,6 @@
 # x12-doctor
 
-Your 850 got rejected. This tells you why — in plain English.
+Your 850 got rejected. This tells you why.
 
 A trading partner sends back a 997 that says `AK3*PO1*8**8` and `AK4*3*355*7`,
 and somebody has to work out that the eighth segment of the transaction set had
