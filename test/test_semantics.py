@@ -145,6 +145,25 @@ def test_correct_hash_total_passes() -> None:
     assert not report.has("B04")
 
 
+ASN_TREE = ("HL*1**S~", "HL*2*1*O~", "HL*3*2*I~", "SN1**4*EA~")
+
+
+def test_asn_ctt_counting_hl_segments_passes() -> None:
+    assert not diagnose(asn(*ASN_TREE, "CTT*3~")).has("B04")
+
+
+def test_asn_ctt_counting_sn1_lines_passes() -> None:
+    assert not diagnose(asn(*ASN_TREE, "CTT*1~")).has("B04")
+
+
+def test_asn_ctt_matching_neither_count_names_both() -> None:
+    finding = next(
+        f for f in diagnose(asn(*ASN_TREE, "CTT*5~")).findings if f.code == "B04"
+    )
+    assert "1 SN1 segment" in finding.message
+    assert "3 HL segments" in finding.message
+
+
 # ---------------------------------------------------------------------------
 # B02 — implied decimals
 # ---------------------------------------------------------------------------
