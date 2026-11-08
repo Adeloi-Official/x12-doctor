@@ -48,6 +48,9 @@ class DocSpec:
     required_segments: tuple[str, ...] = ()
     #: Segment carrying line items, e.g. ``"PO1"``. ``None`` when there are none.
     line_segment: str | None = None
+    #: Other segments whose count is also accepted in CTT01. Implementation
+    #: guides do not agree for every transaction set.
+    alt_count_segments: tuple[str, ...] = ()
     #: Element within the line segment holding the quantity.
     qty_element: int | None = None
     #: Element within the line segment holding the unit of measure.
@@ -432,14 +435,21 @@ def check_line_totals(transaction: TransactionSet, spec: DocSpec) -> list[Findin
                 context={"declared": declared, "actual": actual},
             )
         )
-    elif int(declared) != actual:
+    elif int(declared) != actual and int(declared) not in {
+        len(transaction.by_id(seg)) for seg in spec.alt_count_segments
+    }:
+        alternatives = "".join(
+            f" or {len(transaction.by_id(seg))} {seg} segment"
+            f"{'' if len(transaction.by_id(seg)) == 1 else 's'}"
+            for seg in spec.alt_count_segments
+        )
         findings.append(
             catalog.make_finding(
                 "B04",
                 f"CTT01 declares {int(declared)} line item"
                 f"{'' if int(declared) == 1 else 's'}, but the document contains "
                 f"{actual} {spec.line_segment} segment"
-                f"{'' if actual == 1 else 's'}.",
+                f"{'' if actual == 1 else 's'}{alternatives}.",
                 segment_index=ctt.index,
                 segment_id="CTT",
                 element=1,

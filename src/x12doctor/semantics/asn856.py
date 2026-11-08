@@ -27,6 +27,9 @@ SPEC = DocSpec(
     # SN1 is the item detail: SN1-01 is an assigned identification that is
     # normally empty, SN1-02 the quantity shipped, SN1-03 the unit.
     line_segment="SN1",
+    # Many 856 guides define CTT01 as the number of HL segments rather than
+    # the number of SN1 lines, so either count is accepted.
+    alt_count_segments=("HL",),
     qty_element=2,
     uom_element=3,
 )
